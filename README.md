@@ -1,1 +1,1 @@
-### Python alx-Interview Project Pascal Triangle
+### alx-Interview Project
