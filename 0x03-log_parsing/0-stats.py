@@ -1,46 +1,35 @@
 #!/usr/bin/python3
-
-""" script that reads stdin line by line and computes metrics """
-
+"""log parsing"""
 import sys
 
 
-def printStatus(dic, size):
-    """ Prints information """
-    print("File size: {:d}".format(size))
-    for i in sorted(dic.keys()):
-        if dic[i] != 0:
-            print("{}: {:d}".format(i, dic[i]))
+def print_data(total_file_size, status_code_data):
+    """prints total size and status code count"""
+    print('File size: {}'.format(total_file_size))
+    for k, v in sorted(status_code_data.items()):
+        if v != 0:
+            print('{}: {}'.format(k, v))
 
 
-# sourcery skip: use-contextlib-suppress
-statusCodes = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0,
-               "404": 0, "405": 0, "500": 0}
-
-count = 0
-size = 0
-
+status_codes = ['200', '301', '400', '401', '403', '404', '405', '500']
+status_code_data = {code: 0 for code in status_codes}
+total_file_size = 0
 try:
+    count = 0
     for line in sys.stdin:
-        if count != 0 and count % 10 == 0:
-            printStatus(statusCodes, size)
-
-        stlist = line.split()
-        count += 1
-
+        splitstr = line.split()
         try:
-            size += int(stlist[-1])
-        except Exception:
+            total_file_size += int(splitstr[-1])
+            code = splitstr[-2]
+            if code in status_code_data:
+                count += 1
+                status_code_data[code] += 1
+                if count % 10 == 0:
+                    print_data(total_file_size, status_code_data)
+        except:
             pass
-
-        try:
-            if stlist[-2] in statusCodes:
-                statusCodes[stlist[-2]] += 1
-        except Exception:
-            pass
-    printStatus(statusCodes, size)
-
-
 except KeyboardInterrupt:
-    printStatus(statusCodes, size)
+    print_data(total_file_size, status_code_data)
     raise
+else:
+    print_data(total_file_size, status_code_data)
