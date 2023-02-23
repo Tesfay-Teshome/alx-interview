@@ -36,9 +36,10 @@ def validUTF8(data):
             # Every byte that is not the first byte of a character should start
             # with 10, otherwise is not valid
             if not (i & mask1 and not (i & mask2)):
-                    return False
+                return False
 
-        # If bytes of character are valid, then the count will decrease with each byte
+        # If bytes of character are valid,
+        # then the count will decrease with each byte
         number_bytes -= 1
 
     # All characters were verified correctly with their proper byte count
