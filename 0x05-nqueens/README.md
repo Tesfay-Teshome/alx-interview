@@ -1,1 +1,1 @@
-# N Queens
+# ALX N Queens Challenge
