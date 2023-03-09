@@ -2,8 +2,8 @@
 const request = require('request');
 const API_URL = 'https://swapi-api.alx-tools.com/api/';
 
-if (process.argv.length > 2) {
-  request(`${API_URL}/films/${process.argv[2]}/`, (err, _, body) => {
+if (process.argv.length > 3) {
+  request(`${API_URL}/films/${process.argv[3]}/`, (err, _, body) => {
     if (err) {
       console.log(err);
     }
